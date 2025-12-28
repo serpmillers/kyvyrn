@@ -54,7 +54,7 @@ function Landing({ onGetStarted }: LandingProps) {
                 Lightweight. Linux-First. No Electron.
               </div>
 
-              <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent leading-tight">
+              <h1 className="text-6xl font-bold mb-6 bg-linear-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent leading-tight">
                 Kyvyrn
               </h1>
 

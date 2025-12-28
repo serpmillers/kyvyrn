@@ -69,6 +69,7 @@ interface AppDetails {
   description: string;
   created_at: number;
   engine?: Engine;
+  has_icon: boolean;
   iconUrl?: string;
 }
 
@@ -193,6 +194,21 @@ function Wrapper() {
       cancelled = true;
     };
   }, [apps.length]);
+
+  const mergeApps = (oldApps: AppDetails[], newApps: AppDetails[]) => {
+    const byId = new Map(oldApps.map(app => [app.id, app]));
+
+    return newApps.map(app => {
+      const existing = byId.get(app.id);
+
+      // Preserve frontend-only state
+      if (existing?.iconUrl) {
+        return { ...app, iconUrl: existing.iconUrl };
+      }
+
+      return app;
+    });
+  };
 
   const updateGlobalConfig = (patch: Partial<GlobalConfig>) => {
     if (!globalConfig) return;
@@ -341,7 +357,7 @@ function Wrapper() {
     });
 
     const updated = await invoke<AppDetails[]>("load_apps");
-    setApps(updated);
+    setApps(prev => mergeApps(prev, updated));
 
     closeConfig();
   };
@@ -708,7 +724,7 @@ function Wrapper() {
 
                         await invoke("delete_app", { id: selectedApp.id });
                         const updated = await invoke<AppDetails[]>("load_apps");
-                        setApps(updated);
+                        setApps(prev => mergeApps(prev, updated));
                         closeConfig();
                       }}
                       className="w-full bg-red-600/90 hover:bg-red-700 text-white py-2 rounded-lg transition-colors font-medium"
