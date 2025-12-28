@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+select option {
+  background-color: #0f172a; /* slate-900 */
+  color: #e5e7eb;            /* gray-200 */
+}
+
+select optgroup {
+  background-color: #020617; /* near-black */
+  color: #94a3b8;            /* gray-400 */
+  font-style: normal;
+}
